@@ -31,7 +31,14 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 30px;
-            text-align: center;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         header h1 {
@@ -42,6 +49,175 @@
         header p {
             font-size: 1.1em;
             opacity: 0.9;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .current-user {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .btn-switch {
+            background: white;
+            color: #667eea;
+            padding: 8px 20px;
+            font-size: 0.9em;
+        }
+
+        .btn-switch:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .modal-content > p {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+        .user-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        #user-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .user-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .user-card .user-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .user-card .user-name {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .user-card .delete-user {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(220, 53, 69, 0.9);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .user-card:hover .delete-user {
+            opacity: 1;
+        }
+
+        .delete-user:hover {
+            background: #c82333;
+        }
+
+        .new-user-form {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px dashed #dee2e6;
+        }
+
+        .new-user-form h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .new-user-form input {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .new-user-form button {
+            width: 100%;
         }
 
         .view-toggle {
@@ -254,14 +430,54 @@
             header h1 {
                 font-size: 1.8em;
             }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+
+            #user-list {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- User Selection Modal -->
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <h2>👥 Welcome to Budget Planner</h2>
+            <p>Select a user or create a new one</p>
+            
+            <div class="user-selection">
+                <div id="user-list"></div>
+                
+                <div class="new-user-form">
+                    <h3>Create New User</h3>
+                    <input type="text" id="new-user-name" placeholder="Enter your name">
+                    <button class="btn btn-add" id="create-user-btn">Create User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <header>
-            <h1>💰 Budget Planner</h1>
-            <p>Plan your finances monthly or yearly with tax calculations</p>
+            <div class="header-content">
+                <div>
+                    <h1>💰 Budget Planner</h1>
+                    <p>Plan your finances monthly or yearly with tax calculations</p>
+                </div>
+                <div class="user-info">
+                    <span class="current-user">👤 <span id="current-user-name">Guest</span></span>
+                    <button class="btn btn-switch" id="switch-user-btn">Switch User</button>
+                </div>
+            </div>
         </header>
 
         <div class="view-toggle">
@@ -340,10 +556,143 @@
     </div>
 
     <script>
+        // Multi-user system
+        let users = JSON.parse(localStorage.getItem('budgetUsers')) || [];
+        let currentUser = localStorage.getItem('currentUser') || null;
+
         // Budget data storage
         let incomes = [];
         let expenses = [];
         let currentView = 'monthly'; // 'monthly' or 'yearly'
+
+        // Initialize app
+        window.addEventListener('DOMContentLoaded', function() {
+            if (!currentUser || !users.find(u => u.id === currentUser)) {
+                showUserModal();
+            } else {
+                loadUserData();
+                hideUserModal();
+            }
+        });
+
+        // User Management Functions
+        function showUserModal() {
+            document.getElementById('user-modal').classList.add('active');
+            renderUserList();
+        }
+
+        function hideUserModal() {
+            document.getElementById('user-modal').classList.remove('active');
+        }
+
+        function renderUserList() {
+            const userList = document.getElementById('user-list');
+            userList.innerHTML = '';
+
+            if (users.length === 0) {
+                userList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #6c757d;">No users yet. Create your first user below!</p>';
+                return;
+            }
+
+            users.forEach(user => {
+                const userCard = document.createElement('div');
+                userCard.className = 'user-card';
+                userCard.innerHTML = `
+                    <button class="delete-user" onclick="deleteUser('${user.id}', event)">×</button>
+                    <div class="user-icon">👤</div>
+                    <div class="user-name">${user.name}</div>
+                `;
+                userCard.addEventListener('click', () => selectUser(user.id));
+                userList.appendChild(userCard);
+            });
+        }
+
+        function createUser() {
+            const userName = document.getElementById('new-user-name').value.trim();
+            
+            if (!userName) {
+                alert('Please enter a name!');
+                return;
+            }
+
+            const newUser = {
+                id: 'user_' + Date.now(),
+                name: userName,
+                incomes: [],
+                expenses: [],
+                taxRate: 20,
+                taxType: 'gross'
+            };
+
+            users.push(newUser);
+            localStorage.setItem('budgetUsers', JSON.stringify(users));
+            document.getElementById('new-user-name').value = '';
+            
+            selectUser(newUser.id);
+        }
+
+        function selectUser(userId) {
+            currentUser = userId;
+            localStorage.setItem('currentUser', userId);
+            loadUserData();
+            hideUserModal();
+        }
+
+        function deleteUser(userId, event) {
+            event.stopPropagation();
+            
+            const user = users.find(u => u.id === userId);
+            if (confirm(`Are you sure you want to delete ${user.name}'s budget? This cannot be undone.`)) {
+                users = users.filter(u => u.id !== userId);
+                localStorage.setItem('budgetUsers', JSON.stringify(users));
+                
+                if (currentUser === userId) {
+                    currentUser = null;
+                    localStorage.removeItem('currentUser');
+                    showUserModal();
+                } else {
+                    renderUserList();
+                }
+            }
+        }
+
+        function loadUserData() {
+            const user = users.find(u => u.id === currentUser);
+            if (!user) return;
+
+            // Load user's budget data
+            incomes = user.incomes || [];
+            expenses = user.expenses || [];
+            
+            // Update UI
+            document.getElementById('current-user-name').textContent = user.name;
+            document.getElementById('tax-rate').value = user.taxRate || 20;
+            document.getElementById('tax-type').value = user.taxType || 'gross';
+            
+            renderIncomes();
+            renderExpenses();
+            calculateBudget();
+        }
+
+        function saveUserData() {
+            const user = users.find(u => u.id === currentUser);
+            if (!user) return;
+
+            user.incomes = incomes;
+            user.expenses = expenses;
+            user.taxRate = parseFloat(document.getElementById('tax-rate').value) || 20;
+            user.taxType = document.getElementById('tax-type').value;
+
+            localStorage.setItem('budgetUsers', JSON.stringify(users));
+        }
+
+        // Event Listeners
+        document.getElementById('create-user-btn').addEventListener('click', createUser);
+        document.getElementById('new-user-name').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') createUser();
+        });
+
+        document.getElementById('switch-user-btn').addEventListener('click', showUserModal);
 
         // View toggle functionality
         document.getElementById('monthly-btn').addEventListener('click', function() {
@@ -375,6 +724,7 @@
                 document.getElementById('income-name').value = '';
                 document.getElementById('income-amount').value = '';
                 renderIncomes();
+                saveUserData();
             }
         }
 
@@ -393,6 +743,7 @@
                 document.getElementById('expense-name').value = '';
                 document.getElementById('expense-amount').value = '';
                 renderExpenses();
+                saveUserData();
             }
         }
 
@@ -430,17 +781,23 @@
         function removeIncome(index) {
             incomes.splice(index, 1);
             renderIncomes();
+            saveUserData();
             calculateBudget();
         }
 
         function removeExpense(index) {
             expenses.splice(index, 1);
             renderExpenses();
+            saveUserData();
             calculateBudget();
         }
 
         // Calculate budget
         document.getElementById('calculate-btn').addEventListener('click', calculateBudget);
+
+        // Auto-save tax settings when changed
+        document.getElementById('tax-rate').addEventListener('change', saveUserData);
+        document.getElementById('tax-type').addEventListener('change', saveUserData);
 
         function calculateBudget() {
             const multiplier = currentView === 'yearly' ? 12 : 1;
