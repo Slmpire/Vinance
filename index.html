@@ -111,6 +111,33 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Savings Goals Section -->
+            <div class="section goals-section">
+                <h2>🎯 Savings Goals</h2>
+                <div class="goals-intro">
+                    <p>Set financial goals and track your progress. Your monthly surplus will help you achieve these targets!</p>
+                </div>
+
+                <div class="form-group">
+                    <div class="goal-input-group">
+                        <input type="text" id="goal-name" placeholder="Goal name (e.g., Emergency Fund)">
+                        <input type="number" id="goal-target" placeholder="Target amount" step="0.01">
+                        <input type="number" id="goal-current" placeholder="Current savings" step="0.01" value="0">
+                        <button class="btn btn-add" id="add-goal-btn">Add Goal</button>
+                    </div>
+                </div>
+
+                <div id="goals-list"></div>
+
+                <div class="savings-recommendation" id="savings-recommendation">
+                    <div class="recommendation-icon">💡</div>
+                    <div class="recommendation-text">
+                        <strong>Savings Tip:</strong>
+                        <p id="recommendation-message">Calculate your budget to see personalized savings recommendations!</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
