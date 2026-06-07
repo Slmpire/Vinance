@@ -352,8 +352,8 @@ A: No hard limit, but performance may vary based on browser localStorage limits 
 
 For bugs, feature requests, or questions:
 - Open an issue on GitHub
-- Email: your-email@example.com
-- Twitter: @yourusername
+- Email: ogunleyepelumi123@gmail.com
+- Linkedin : https://www.linkedin.com/in/pelumi-miracle-38b157212/
 
 ## 🙏 Acknowledgments
 
